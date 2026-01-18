@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package gmailservice;
+
+import "protoc-gen-openapiv2/options/annotations.proto";
+import "google/api/annotations.proto";
+
+option go_package = "grpc_service/internal/proto/auck.gmailservice1.v1;gmailservicev1";
+
+
+service GmailService {
+  rpc SendVerificationCode (SendVerificationCodeRequest) returns (SendVerificationCodeResponse);
+}
+
+message SendVerificationCodeRequest {
+ string email = 1;         
+ string code = 2;          
+}
+
+message SendVerificationCodeResponse {
+  bool success = 1;
+  string message = 2;
+}

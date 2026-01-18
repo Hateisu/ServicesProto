@@ -1,0 +1,174 @@
+syntax = "proto3";
+
+package authservice;
+
+import "auth_models.proto";
+
+option go_package = "grpc_service/internal/proto/auck.authservice1.v1;authservicev1";
+
+message SelfUserCreateRequest {
+    string username = 1;
+    string password = 2;
+    string email = 3;
+    string phone_number = 4;
+}
+
+message SelfUserCreateResponse {
+    string uuid = 1;
+}
+
+message SelfUserPermissionsGetRequest {
+    int32 page_size = 1;
+    string page_token = 2;
+    string filter = 3;  // e.g. "is_active = true"
+    string order_by = 4; 
+}
+message SelfUserPermissionsGetResponse{
+    repeated Permission items = 1;
+    string next_page_token = 2;
+}
+
+message SelfUserReadRequest {
+}
+message SelfUserReadResponse{
+    User user = 1;
+}
+
+message SelfUserUpdateRequest {
+    string username = 1;
+    string password = 2;
+    string email = 3;
+    string phone_number = 4;
+}
+
+message SelfUserUpdateResponse {    
+    string uuid = 1;
+}
+
+
+message SelfUserDeleteRequest {
+}
+
+message SelfUserDeleteResponse {
+  bool success = 1;
+}
+
+message UserLoginRequest {
+    string username = 1;
+    string password = 2;
+}
+
+message UserLoginResponse {
+    string token = 1;
+    string refresh_token = 2;
+}
+
+message UserLogoutRequest {
+}
+
+message UserLogoutResponse {
+}
+
+message ValidateTokenRequest{
+    string token = 1;
+}
+
+message ValidateTokenResponse{
+    UserReadResponse user = 1;
+    bool valid = 2;
+}
+
+message RSA256PublicKeyRequest {
+}
+
+message RSA256PublicKeyResponse {
+    string public_key = 1;
+}
+
+message RefreshTokenRequest {
+    string refresh_token = 1;
+}
+message RefreshTokenResponse {
+    string refresh_token = 1;
+    string token = 2;
+}
+
+// Not for self
+
+message UserCreateRequest {
+    User user = 1;
+}
+
+message UserCreateResponse {
+    string uuid = 1;
+}
+
+message UserReadRequest{
+    User user = 1;
+}
+message UserReadResponse{
+    User user = 1;
+}
+
+message UserUpdateByUUIDRequest {
+    string uuid = 1;
+    User user = 2;
+}
+message UserUpdateByUsernameRequest {
+    string username = 1;
+    User user = 2;
+}
+
+message UserUpdateResponse {    
+    string uuid = 1;
+}
+
+message UserDeleteRequest {
+    User user = 1;
+}
+
+message UserDeleteResponse {
+  bool success = 1;
+}
+message UserListRequest {
+  int32 page_size = 1;
+  string page_token = 2;
+  string filter = 3;  // e.g. "is_active = true"
+  string order_by = 4;  // e.g. "created_at desc"
+}
+
+message UserListResponse {
+    repeated User items = 1;
+    string next_page_token = 2;
+}
+message ChangePasswordRequest {
+  string old_password = 1;
+  string new_password = 2;
+}
+
+message ChangePasswordResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message ForgotPasswordRequest {
+  string email = 1;
+}
+
+message ForgotPasswordResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message VerifyEmailRequest{
+    int32 code = 1;
+}
+message VerifyEmailResponse{
+    bool success = 1;
+}
+
+message RequestVerifyEmailCodeRequest{
+}
+message RequestVerifyEmailCodeResponse{
+    bool success = 1;
+}

@@ -1,0 +1,111 @@
+syntax = "proto3";
+
+package authservice;
+
+import "auth_models.proto";
+
+option go_package = "grpc_service/internal/proto/auck.authservice1.v1;authservicev1";
+
+message RoleCreateRequest {
+    Role role = 1;
+}
+
+message RoleCreateResponse {
+    string id = 1;
+}
+
+
+message RoleReadRequest {
+    string id = 1;
+}
+
+message RoleReadResponse{
+    Role role = 1;
+}
+
+message RoleUpdateRequest {    
+    string id = 1;
+    Role role = 2;
+    // google.protobuf.FieldMask update_mask = 3;
+}
+
+message RoleUpdateResponse {    
+    string id = 1;
+}
+
+message RoleDeleteRequest {
+    string id = 1;
+}
+
+message RoleDeleteResponse {
+  bool success = 1;
+}
+
+message RoleListRequest {
+    int32 page_size = 1;
+    string page_token = 2;
+    string filter = 3;  // e.g. "is_active = true"
+    string order_by = 4; 
+}
+
+message RoleListResponse {
+    repeated Role items = 1;
+    string next_page_token = 2;
+}
+
+message RolePermissionsRequest {
+  string role_id =  1;
+    int32 page_size = 2;
+    string page_token = 3;
+    string filter = 4;  // e.g. "is_active = true"
+    string order_by = 5; 
+}
+
+message RolePermissionsResponse {
+    repeated Role items = 1;
+    string next_page_token = 2;
+}
+
+message RoleGrantPermissionRequest {
+  string role_id = 1;
+  string permission_id = 2;
+}
+
+message RoleGrantPermissionResponse {
+  bool success = 1;
+}
+
+message RoleRevokePermissionRequest {
+  string role_id = 1;
+  string permission_id = 2;
+}
+
+message RoleRevokePermissionResponse {
+  bool success = 1;
+}
+
+message UserAssignRoleRequest {
+  string uuid = 1;
+  string role_id = 2;
+}
+
+message UserAssignRoleResponse {
+  bool success = 1;
+}
+
+message UserRevokeRoleRequest {
+  string uuid = 1;
+  string role_id = 2;
+}
+
+message UserRevokeRoleResponse {
+  bool success = 1;
+}
+
+message UserRolesGetRequest {
+  string uuid = 1;
+}
+
+message UserRolesGetResponse {
+  repeated Role roles = 1;
+}

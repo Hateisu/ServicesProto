@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package marketplaceservice;
+
+import "marketplace_models.proto";
+
+option go_package = "grpc_service/internal/proto/auck.marketplaceservice1.v1;marketplaceservicev1";
+
+message ListProductMediaRequest{
+    int32 page_size = 1;
+    string page_token = 2;
+    string filter = 3;  // e.g. "is_active = true"
+    string order_by = 4; 
+}
+
+message ListProductMediaResponse{
+    repeated ProductMediaListItem items = 1;
+    string next_page_token = 2;
+}
+
+message CreateProductMediaRequest{
+    string type = 1;
+    string product_id = 2;
+    bytes data = 3;
+}
+
+message CreateProductMediaResponse {
+    ProductMedia product_media = 1;
+}
+message GetProductMediaByIdRequest{
+    string id = 1;
+}
+message GetProductMediaByIdResponse{
+    ProductMedia product_media = 1;
+}
+message UpdateProductMediaRequest{
+    string id = 1;
+    string url = 2;
+    string type = 3;
+    string product_id = 4;
+}
+message UpdateProductMediaResponse{
+    ProductMedia product_media = 1;
+}
+message DeleteProductMediaRequest{
+    string id = 1;
+}
+message DeleteProductMediaResponse{
+    bool status = 1;
+}

@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package redis_messages;
+
+import "protoc-gen-openapiv2/options/annotations.proto";
+import "google/api/annotations.proto";
+
+option go_package = "grpc_service/internal/proto/auck.redis_messages.v1;redis_messages";
+
+
+message RedisSendStringSlice  {
+ repeated string string_name = 1;
+}

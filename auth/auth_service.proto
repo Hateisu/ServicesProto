@@ -1,0 +1,406 @@
+syntax = "proto3";
+
+package authservice;
+
+import "role_messages.proto";
+import "permission_messages.proto";
+import "user_messages.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+import "google/api/annotations.proto";
+
+option go_package = "grpc_service/internal/proto/auck.authservice1.v1;authservicev1";
+
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: {
+    title: "Auck AuthService"
+    version: "1.0"
+  }
+  schemes: HTTP
+  consumes: "application/json"
+  produces: "application/json"
+  security_definitions: {
+    security: {
+      key: "Bearer"
+      value: {
+        type: TYPE_API_KEY
+        in: IN_HEADER
+        name: "Authorization"
+        description: "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\""
+      }
+    }
+  }
+  security: {
+    security_requirement: {
+      key: "Bearer"
+      value: {}
+    }
+  }
+};
+
+// * Auth is a service for managing permissions and roles.
+/*
+    
+*/
+service AuthService {
+  // CRUD + List + pagination
+  rpc PermissionCreate (PermissionCreateRequest) returns (PermissionCreateResponse){
+    option (google.api.http) = {
+      post: "/auth/v1/permissions"
+      body: "permission"
+   
+       };
+     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Permissions"
+      summary: "Permission Creation"
+      description: "Create Permission"
+    };
+  }
+  rpc PermissionRead (PermissionReadRequest) returns (PermissionReadResponse){
+    option (google.api.http) = {
+      get: "/auth/v1/permissions/{id}"
+
+       };
+     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Permissions"
+      summary: "Get Permission"
+      description: "Get Permission by id"
+    
+    };
+  }
+  rpc PermissionUpdate (PermissionUpdateRequest) returns (PermissionUpdateResponse){
+     option (google.api.http) = {
+      put: "/auth/v1/permissions/{id}"
+      body: "permission"
+
+       };
+     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Permissions"
+      summary: "Permission Update"
+      description: "Update Permission by id"
+    
+    };
+  }
+   rpc PermissionDelete (PermissionDeleteRequest) returns (PermissionDeleteResponse) {
+    option (google.api.http) = {
+      delete: "/auth/v1/permissions/{id}"
+
+       };
+     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Permissions"
+      summary: "Permission Deletion"
+      description: "Delete Permission by id"
+    
+    };
+  }
+  rpc PermissionList (PermissionListRequest) returns (PermissionListResponse){
+    option (google.api.http) = {
+      get: "/auth/v1/permissions"
+      
+       };
+     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Permissions"
+      summary: "Get All Permissions"
+      description: "Get all Permissions"
+    
+    };
+  }
+
+  rpc RoleCreate (RoleCreateRequest) returns (RoleCreateResponse) {
+    option (google.api.http) = {
+      post: "/auth/v1/roles"
+      body: "role"
+
+       };
+     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Role"
+      summary: "Role Creation"
+      description: "Create Role"
+    
+    };
+  }
+  rpc RoleRead (RoleReadRequest) returns (RoleReadResponse){
+    option (google.api.http) = {
+      get: "/auth/v1/roles/{id}"
+
+       };
+     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Role"
+      summary: "Get Role"
+      description: "Get Role by Id"
+    };
+  }
+  rpc RoleUpdate (RoleUpdateRequest) returns (RoleUpdateResponse){
+    option (google.api.http) = {
+      put: "/auth/v1/roles/{id}"
+      body: "role"
+
+       };
+     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Role"
+      summary: "Role Update"
+      description: "Update Role by id"
+    };
+  }
+  rpc RoleDelete (RoleDeleteRequest) returns (RoleDeleteResponse){
+    option (google.api.http) = {
+      delete: "/auth/v1/roles/{id}"
+
+       };
+     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Role"
+      summary: "Role Deletion"
+      description: "Delete Role by id"
+    };
+  }
+  rpc RoleList (RoleListRequest) returns (RoleListResponse){
+    option (google.api.http) = {
+      get: "/auth/v1/roles"
+
+       };
+     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Role"
+      summary: "List of Roles"
+      description: "Get all Roles"
+    };
+  }
+  rpc RolePermissions (RolePermissionsRequest) returns (RolePermissionsResponse){
+    option (google.api.http) = {
+      get: "/auth/v1/roles/{role_id}/permissions"
+
+       };
+     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Role"
+      summary: "Get Role Permissions"
+      description: "Get all permission of this role"
+    };
+  }
+  // Role ↔ Permission
+  rpc RoleGrantPermission (RoleGrantPermissionRequest) returns (RoleGrantPermissionResponse){
+     option (google.api.http) = {
+      post: "/auth/v1/roles/{role_id}/permissions/{permission_id}"
+
+       };
+     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Permissions"
+      summary: "Grant Permission to Role"
+      description: "Grant Permission to role using query ids"
+    };
+  }
+  rpc RoleRevokePermission (RoleRevokePermissionRequest) returns (RoleRevokePermissionResponse){
+     option (google.api.http) = {
+      delete: "/auth/v1/roles/{role_id}/permissions/{permission_id}"
+
+       };
+     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Permissions"
+      summary: "Revoke Permission from Role"
+      description: "Revoke Permission from role using query ids"
+    };
+  }
+
+  // Operations for ALL users Cruder for ALL users
+  rpc UserRegister (UserCreateRequest) returns (UserCreateResponse){
+     option (google.api.http) = {
+      post: "/auth/v1/users"
+      body: "user"
+    };
+  }
+  rpc UserRead (UserReadRequest) returns (UserReadResponse);
+  rpc UserUpdateByUUID (UserUpdateByUUIDRequest) returns (UserUpdateResponse){
+    option (google.api.http) = {
+      put: "/auth/v1/users/{uuid}"
+      body: "user"
+    };
+  }
+  rpc UserUpdateByUsername (UserUpdateByUsernameRequest) returns (UserUpdateResponse);
+  rpc UserDelete (UserDeleteRequest) returns (UserDeleteResponse);
+  rpc UserList (UserListRequest) returns (UserListResponse){
+     option (google.api.http) = {
+      get: "/auth/v1/users"
+    };
+  }
+  // Self‑operations operations for user to manage his own account
+  rpc SelfUserRegister (SelfUserCreateRequest) returns (SelfUserCreateResponse){
+    option (google.api.http) = {
+      post: "/auth/v1/self/register"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Guest"
+      summary: "Register new user"
+      description: "Anyone can register new account with default role"
+    };
+  }
+  rpc SelfUserRead (SelfUserReadRequest) returns (SelfUserReadResponse){
+    option (google.api.http) = {
+      get: "/auth/v1/self"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Self User"
+      summary: "Read this user"
+      description: "Reading user with this token"
+    };
+  }
+  rpc SelfUserPermissionsGet(SelfUserPermissionsGetRequest) returns (SelfUserPermissionsGetResponse){
+    option (google.api.http) = {
+      get: "/auth/v1/self/permissions"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Self User"
+      summary: "Read this user permissions"
+      description: "Reading user permissions with this token"
+    };
+  }
+  rpc SelfUserUpdate (SelfUserUpdateRequest) returns (SelfUserUpdateResponse){
+    option (google.api.http) = {
+      put: "/auth/v1/self"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Self User"
+      summary: "Update this user"
+      description: "User updates self information PASSWORD WILL BE AVOIDED TODO:ADD FORGOT_PASSWORD and CHANGE_CREDENTIALS"
+    };
+  }
+  rpc SelfUserDelete (SelfUserDeleteRequest) returns (SelfUserDeleteResponse){
+    option (google.api.http) = {
+      delete: "/auth/v1/self"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Self User"
+      summary: "Delete for this user"
+      description: "Will be used soft delete"
+    };
+  }
+  // User ↔ Role
+  rpc UserAssignRole (UserAssignRoleRequest) returns (UserAssignRoleResponse){
+     option (google.api.http) = {
+      post: "/auth/v1/users/{uuid}/roles/{role_id}"
+    };
+  }
+  rpc UserRevokeRole (UserRevokeRoleRequest) returns (UserRevokeRoleResponse){
+   option (google.api.http) = {
+      delete: "/auth/v1/users/{uuid}/roles/{role_id}"
+    };
+  }
+  rpc UserRolesGet (UserRolesGetRequest) returns (UserRolesGetResponse){
+     option (google.api.http) = {
+      get: "/auth/v1/users/{uuid}/roles"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Admin"
+      summary: "Read User Roles"
+      description: "Get User Roles"
+    };
+  }
+  // User ↔ Permission
+  rpc UserGrantPermission (UserGrantPermissionRequest) returns (UserGrantPermissionResponse){
+     option (google.api.http) = {
+      post: "/auth/v1/users/{uuid}/permissions/{permission_id}"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Permissions"
+      summary: "Grant Permission to User"
+      description: "Grant Permission to user using query ids"
+    };
+  }
+  rpc UserRevokePermission (UserRevokePermissionRequest) returns (UserRevokePermissionResponse){
+     option (google.api.http) = {
+      delete: "/auth/v1/users/{uuid}/permissions/{permission_id}"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Permissions"
+      summary: "Revoke Permission from User"
+      description: "Revoke Permission from user using query ids"
+    };
+  }
+  rpc UserPermissionsGet (UserPermissionsGetRequest) returns (UserPermissionsGetResponse){
+     option (google.api.http) = {
+      get: "/auth/v1/users/{uuid}/permissions"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Admin"
+      summary: "Read User Permissions"
+      description: "Get User Permissions"
+    };
+  }
+
+  // Auth
+  rpc Login (UserLoginRequest) returns (UserLoginResponse){
+    option (google.api.http) = {
+      post: "/auth/v1/login"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Guest"
+      summary: "Login for user"
+      description: "Anyone can login in account"
+    };
+  }
+  rpc Logout (UserLogoutRequest) returns (UserLogoutResponse){
+    option (google.api.http) = {
+      post: "/auth/v1/logout"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Self User"
+      summary: "Logout for this user"
+      description: "User logs out and we terminate his refresh_token"
+    };
+  }
+  rpc ValidateToken (ValidateTokenRequest) returns (ValidateTokenResponse){
+    option (google.api.http) = {
+      post: "/auth/v1/validate-token"
+      body: "*"
+    };
+  }
+  rpc RefreshToken (RefreshTokenRequest) returns (RefreshTokenResponse){
+   option (google.api.http) = {
+      post: "/auth/v1/refresh-token"
+      body: "*"
+    };
+  }
+  rpc CheckAccess (CheckAccessRequest) returns (CheckAccessResponse){
+    option (google.api.http) = {
+      post: "/auth/v1/access/check"
+      body: "*"
+    };
+  }
+
+  rpc CheckServiceAccess (CheckServiceAccessRequest) returns (CheckServiceAccessResponse); // TODO FATAL ТУт ошибка может быть доделать позже
+
+  // Keys
+  rpc GetRSA256PublicKey (RSA256PublicKeyRequest) returns (RSA256PublicKeyResponse);
+  rpc VerifyEmail (VerifyEmailRequest) returns (VerifyEmailResponse){
+    option (google.api.http) = {
+      post: "/auth/v1/verifyemail"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Self User"
+      summary: "Verify Email for this user"
+      description: "User enters code after login into account NEED A TOKEN"
+    };
+  }
+
+    rpc RequestVerifyEmailCode (RequestVerifyEmailCodeRequest) returns (RequestVerifyEmailCodeResponse){
+    option (google.api.http) = {
+      post: "/auth/v1/sendemailcode"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Self User"
+      summary: "Request Code for Verify Email"
+      description: "User logins into account and request code. Normally do not to repeat because Register triggers it."
+    };
+  }
+  // Sessions/Tokens
+  // rpc SessionList          (SessionListRequest)          returns (SessionListResponse);
+  // rpc TokenRevoke          (TokenRevokeRequest)          returns (TokenRevokeResponse);
+
+  // Password management
+  rpc ChangePassword       (ChangePasswordRequest)       returns (ChangePasswordResponse);
+  rpc ForgotPassword       (ForgotPasswordRequest)       returns (ForgotPasswordResponse);
+
+  // (Опционально) стриминг логов в Docker compose-е
+  // rpc StreamLoginEvents    (StreamLoginEventsRequest)    returns (stream LoginEvent);
+}

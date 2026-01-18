@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package marketplaceservice;
+
+import "marketplace_models.proto";
+
+
+option go_package = "grpc_service/internal/proto/auck.marketplaceservice1.v1;marketplaceservicev1";
+
+message ListCategoriesRequest{
+    int32 page_size = 1;
+    string page_token = 2;
+    string filter = 3;  // e.g. "is_active = true"
+    string order_by = 4; 
+}
+
+message ListCategoriesResponse{
+    repeated CategoryListItem items = 1;
+    string next_page_token = 2;
+}
+
+message CreateCategoryRequest{
+    string name = 1;
+    string slug = 2;
+}
+
+message CreateCategoryResponse {
+    Category category = 1;
+}
+message GetCategoryByIdRequest{
+    int32 id = 1;
+}
+message GetCategoryByIdResponse{
+    Category category = 1;
+}
+message UpdateCategoryRequest{
+    int32 id = 1;
+    string name = 2;
+    string slug = 3;
+    bool is_active = 4;
+}
+message UpdateCategoryResponse{
+    Category category = 1;
+}
+message DeleteCategoryRequest{
+    int32 id = 1;
+}
+message DeleteCategoryResponse{
+    bool status = 1;
+}

@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package kafkamessages;
+
+import "protoc-gen-openapiv2/options/annotations.proto";
+import "google/api/annotations.proto";
+
+option go_package = "grpc_service/internal/proto/auck.kafkamessages.v1;kafkamessagesv1";
+
+
+message KafkaSendEmailCode {
+ string email = 1;         
+ string code = 2;          
+}

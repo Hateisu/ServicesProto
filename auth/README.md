@@ -1,0 +1,3 @@
+# Example 
+
+![Place holder](https://docs.oracle.com/cd/E82085_01/160027/JOS%20Implementation%20Guide/Output/img/oauth2-caseflow.png)

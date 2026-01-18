@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package marketplaceservice;
+import "google/protobuf/timestamp.proto";
+
+option go_package = "grpc_service/internal/proto/auck.marketplaceservice1.v1;marketplaceservicev1";
+
+
+message CategoryListItem {
+    int32 id = 1;
+    string name = 2;
+    string slug = 3;
+}   
+message Category {
+    int32 id = 1;
+    string name = 2;
+    string slug = 3;
+    bool is_active = 4;
+    google.protobuf.Timestamp created_at = 5;
+    google.protobuf.Timestamp updated_at = 6;
+}
+
+message SubcategoryListItem {
+    int32 id = 1;
+    string name = 2;
+    string slug = 3;
+    int32 category_id = 4;
+}   
+message Subcategory {
+    int32 id = 1;
+    string name = 2;
+    string slug = 3;
+    int32 category_id = 4;
+    bool is_active = 5;
+    google.protobuf.Timestamp created_at = 6;
+    google.protobuf.Timestamp updated_at = 7;
+}
+
+message ProductListItem{
+    string id = 1;
+    string title = 2;
+    google.protobuf.Timestamp updated_at = 3;
+}
+
+message Product{
+    string id = 1;
+    string title = 2;
+    string description = 3;
+    string seller_id = 4; // UUID of user
+    string status = 5;
+    // bool is_active = 6;
+    google.protobuf.Timestamp created_at = 6;
+    google.protobuf.Timestamp updated_at = 7;
+}
+
+message ProductMediaListItem{
+    string id = 1;
+    string product_id = 2;
+    string url = 3;
+    string type = 4;
+}
+
+message ProductMedia{
+    string id = 1;
+    string product_id = 2;
+    string url = 3;
+    string type = 4;
+    google.protobuf.Timestamp created_at = 5;
+    google.protobuf.Timestamp updated_at = 6;
+}

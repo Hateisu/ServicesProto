@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+package marketplaceservice;
+
+import "marketplace_models.proto";
+
+
+option go_package = "grpc_service/internal/proto/auck.marketplaceservice1.v1;marketplaceservicev1";
+
+message ListProductsRequest{
+    int32 page_size = 1;
+    string page_token = 2;
+    string filter = 3;  // e.g. "is_active = true"
+    string order_by = 4; 
+}
+
+message ListProductsResponse{
+    repeated ProductListItem items = 1;
+    string next_page_token = 2;
+}
+
+message CreateProductRequest{
+    string title = 1;
+    string description = 2;
+}
+
+message CreateProductResponse {
+    Product product = 1;
+}
+message GetProductByIdRequest{
+    string id = 1;
+}
+message GetProductByIdResponse{
+    Product product = 1;
+    repeated SubcategoryListItem subcategories = 2;
+}
+message UpdateProductRequest{
+    string id = 1;
+    string title = 2;
+    string description = 3;
+}
+message UpdateProductResponse{
+    Product product = 1;
+}
+message DeleteProductRequest{
+    string id = 1;
+}
+message DeleteProductResponse{
+    bool status = 1;
+}
+
+message AddSubCategoriesRequest{
+    string id = 1;
+    repeated int32 subcategory_ids = 2;
+}
+message AddSubCategoriesResponse{
+    Product product = 1;
+    repeated SubcategoryListItem subcategories = 2;
+}
+
+message RemoveSubCategoriesRequest{
+    string id = 1;
+    repeated int32 subcategory_ids = 2;
+}
+message RemoveSubCategoriesResponse{
+    Product product = 1;
+    repeated SubcategoryListItem subcategories = 2;
+}
+
+message AddProductMediaRequest{
+    string id = 1;
+    string media_type = 2;
+    bytes media_data = 3;
+}
+message AddProductMediaResponse{
+    string url = 1;
+}

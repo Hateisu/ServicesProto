@@ -1,0 +1,6 @@
+syntax = "proto3";
+
+package marketplaceservice;
+
+import "marketplace_models.proto";
+option go_package = "grpc_service/internal/proto/auck.marketplaceservice1.v1;marketplaceservicev1";

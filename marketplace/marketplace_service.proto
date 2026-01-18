@@ -1,0 +1,289 @@
+syntax = "proto3";
+
+package marketplaceservice;
+
+import "category_messages.proto";
+import "subcategory_messages.proto";
+import "product_messages.proto";
+import "media_messages.proto";
+import "review_messages.proto";
+
+import "protoc-gen-openapiv2/options/annotations.proto";
+import "google/api/annotations.proto";
+
+option go_package = "grpc_service/internal/proto/auck.marketplaceservice1.v1;marketplaceservicev1";
+
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: {
+    title: "Auck Marketplace Service"
+    version: "1.0"
+  }
+  schemes: HTTP
+  consumes: "application/json"
+  produces: "application/json"
+  security_definitions: {
+    security: {
+      key: "Bearer"
+      value: {
+        type: TYPE_API_KEY
+        in: IN_HEADER
+        name: "Authorization"
+        description: "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\""
+      }
+    }
+  }
+  security: {
+    security_requirement: {
+      key: "Bearer"
+      value: {}
+    }
+  }
+};
+
+service MarketplaceService {
+  /* rpc PermissionCreate (PermissionCreateRequest) returns (PermissionCreateResponse){
+    option (google.api.http) = {
+      post: "/auth/v1/permissions"
+      body: "permission"
+   
+       };
+     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Permissions"
+      summary: "Permission Creation"
+      description: "Create Permission"
+    };
+  }*/
+  // Категории
+  rpc ListCategories(ListCategoriesRequest) returns (ListCategoriesResponse){
+    option (google.api.http) = {
+      get: "/marketplace/v1/categories"
+      
+       };
+     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Categories"
+      summary: "Get All Categories"
+      description: "Get all Categories"
+    
+    };
+  }
+  rpc CreateCategory(CreateCategoryRequest) returns (CreateCategoryResponse){
+    option (google.api.http) = {
+      post: "/marketplace/v1/categories"
+      body: "*"
+   
+       };
+     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Categories"
+      summary: "Category Creation"
+      description: "Create Category"
+    };
+  }
+  rpc GetCategoryById(GetCategoryByIdRequest) returns (GetCategoryByIdResponse){
+    option (google.api.http) = {
+      get: "/marketplace/v1/categories/{id}"
+
+       };
+     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Categories"
+      summary: "Get Categories"
+      description: "Get Category by id"
+    
+    };
+  }
+  rpc UpdateCategory(UpdateCategoryRequest) returns (UpdateCategoryResponse){
+    option (google.api.http) = {
+      put: "/marketplace/v1/categories/{id}"
+      body: "*"
+
+       };
+     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Categories"
+      summary: "Category Update"
+      description: "Update Category by id"
+    
+    };
+  }
+  rpc DeleteCategory(DeleteCategoryRequest) returns (DeleteCategoryResponse){
+    option (google.api.http) = {
+      delete: "/marketplace/v1/categories/{id}"
+
+       };
+     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      tags: "Categories"
+      summary: "Category Deletion"
+      description: "Delete Category by id"
+    
+    };
+  }
+  
+// Подкатегории
+rpc ListSubcategories(ListSubcategoriesRequest) returns (ListSubcategoriesResponse) {
+  option (google.api.http) = {
+    get: "/marketplace/v1/subcategories"
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    tags: "Subcategories"
+    summary: "Get All Subcategories"
+    description: "Get all Subcategories"
+  };
+}
+
+rpc CreateSubcategory(CreateSubcategoryRequest) returns (CreateSubcategoryResponse) {
+  option (google.api.http) = {
+    post: "/marketplace/v1/subcategories"
+    body: "*"
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    tags: "Subcategories"
+    summary: "Subcategory Creation"
+    description: "Create Subcategory"
+  };
+}
+
+rpc GetSubcategoryById(GetSubcategoryByIdRequest) returns (GetSubcategoryByIdResponse) {
+  option (google.api.http) = {
+    get: "/marketplace/v1/subcategories/{id}"
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    tags: "Subcategories"
+    summary: "Get Subcategory"
+    description: "Get Subcategory by id"
+  };
+}
+
+rpc UpdateSubcategory(UpdateSubcategoryRequest) returns (UpdateSubcategoryResponse) {
+  option (google.api.http) = {
+    put: "/marketplace/v1/subcategories/{id}"
+    body: "*"
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    tags: "Subcategories"
+    summary: "Subcategory Update"
+    description: "Update Subcategory by id"
+  };
+}
+
+rpc DeleteSubcategory(DeleteSubcategoryRequest) returns (DeleteSubcategoryResponse) {
+  option (google.api.http) = {
+    delete: "/marketplace/v1/subcategories/{id}"
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    tags: "Subcategories"
+    summary: "Subcategory Deletion"
+    description: "Delete Subcategory by id"
+  };
+}
+
+  // Продукты
+// Продукты
+rpc ListProducts(ListProductsRequest) returns (ListProductsResponse) {
+  option (google.api.http) = {
+    get: "/marketplace/v1/products"
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    tags: "Products"
+    summary: "Get All Products"
+    description: "Get all Products"
+  };
+}
+
+rpc CreateProduct(CreateProductRequest) returns (CreateProductResponse) {
+  option (google.api.http) = {
+    post: "/marketplace/v1/products"
+    body: "*"
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    tags: "Products"
+    summary: "Product Creation"
+    description: "Create Product"
+  };
+}
+
+rpc AddProductMedia(AddProductMediaRequest) returns (AddProductMediaResponse) {
+  option (google.api.http) = {
+    post: "/marketplace/v1/products/media"
+    body: "*"
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    tags: "Products"
+    summary: "Product Media addition"
+    description: "Media to Product"
+  };
+}
+
+rpc GetProductById(GetProductByIdRequest) returns (GetProductByIdResponse) {
+  option (google.api.http) = {
+    get: "/marketplace/v1/products/{id}"
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    tags: "Products"
+    summary: "Get Product"
+    description: "Get Product by id"
+  };
+}
+
+rpc UpdateProduct(UpdateProductRequest) returns (UpdateProductResponse) {
+  option (google.api.http) = {
+    put: "/marketplace/v1/products/{id}"
+    body: "*"
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    tags: "Products"
+    summary: "Product Update"
+    description: "Update Product by id"
+  };
+}
+
+rpc DeleteProduct(DeleteProductRequest) returns (DeleteProductResponse) {
+  option (google.api.http) = {
+    delete: "/marketplace/v1/products/{id}"
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    tags: "Products"
+    summary: "Product Deletion"
+    description: "Delete Product by id"
+  };
+}
+
+rpc AddSubCategories(AddSubCategoriesRequest) returns (AddSubCategoriesResponse) {
+  option (google.api.http) = {
+    put: "/marketplace/v1/products/{id}/addsubcategories"
+    body: "*"
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    tags: "Products"
+    summary: "Add Subcategories for products"
+    description: "Adding subcategories for products"
+  };
+}
+
+rpc RemoveSubCategories(RemoveSubCategoriesRequest) returns (RemoveSubCategoriesResponse) {
+  option (google.api.http) = {
+    put: "/marketplace/v1/products/{id}/removesubcategories"
+    body: "*"
+  };
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    tags: "Products"
+    summary: "Add Subcategories for products"
+    description: "Adding subcategories for products"
+  };
+}
+
+
+  // Медиа продуктов
+  rpc ListProductMedia(ListProductMediaRequest) returns (ListProductMediaResponse);
+  rpc CreateProductMedia(CreateProductMediaRequest) returns (CreateProductMediaResponse);
+  rpc GetProductMediaById(GetProductMediaByIdRequest) returns (GetProductMediaByIdResponse);
+  rpc UpdateProductMedia(UpdateProductMediaRequest) returns (UpdateProductMediaResponse);
+  rpc DeleteProductMedia(DeleteProductMediaRequest) returns (DeleteProductMediaResponse);
+  
+  // Отзывы
+ /* rpc ListUserReviews(ProductIdRequest) returns (UserReview);
+  rpc CreateUserReview(CreateUserReviewRequest) returns (UserReview);
+  rpc GetUserReviewById(IdRequest) returns (UserReview);
+  rpc UpdateUserReview(UpdateUserReviewRequest) returns (UserReview);
+  rpc DeleteUserReview(IdRequest) returns (google.protobuf.Empty);*/
+
+  // Оркестрация
+  //rpc MyProducts (google.protobuf.Empty) returns (Product);
+}
